@@ -6,25 +6,27 @@ def applyRules(alphabet, axiom, rules, nIter):
     for i in range(nIter):
         for j in range(len(prev)):
             finalString +=  rules[prev[j]]
-        print(finalString)
         prev = finalString
+        if i == nIter-1:
+            return finalString
         finalString = ""
         
-    return finalString
 
 def drawLsystem(myTurtle, finalString):
-    for alpha in finalString:
-        if alpha == 'a':
+    print(finalString)
+    for alpha in range(len(finalString)):
+        if finalString[alpha] == 'F':
+            print(finalString[alpha])
             myTurtle.forward(10)
-        elif alpha == 'b':
+        elif finalString[alpha] == 'B':
             myTurtle.backward(10)
-        elif alpha == '+':
+        elif finalString[alpha] == '+':
             myTurtle.right(60)
-        elif alpha == '-':
+        elif finalString[alpha] == '-':
             myTurtle.left(60)
 
 
-def initTurtle(finalString):
+def initTurtle():
     myTurtle = turtle.Turtle()
     scrTurtle = turtle.Screen()
   
@@ -57,7 +59,9 @@ if __name__ == "__main__":
 
     finalString = applyRules(alphabet,axiom,rules,nIter)
 
-    myTurtle, scrTurtle = initTurtle(finalString)
+    myTurtle, scrTurtle = initTurtle()
+
+    print(finalString)
 
     drawLsystem(myTurtle,finalString)
     
