@@ -13,7 +13,6 @@ def applyRules(alphabet, axiom, rules, nIter):
         
 
 def drawLsystem(myTurtle, finalString):
-    print(finalString)
     for alpha in range(len(finalString)):
         if finalString[alpha] == 'F':
             print(finalString[alpha])
@@ -60,8 +59,6 @@ if __name__ == "__main__":
     finalString = applyRules(alphabet,axiom,rules,nIter)
 
     myTurtle, scrTurtle = initTurtle()
-
-    print(finalString)
 
     drawLsystem(myTurtle,finalString)
     
