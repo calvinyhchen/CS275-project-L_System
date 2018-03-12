@@ -10,7 +10,8 @@ def applyRules(alphabet, axiom, rules, nIter):
         if i == nIter-1:
             return finalString
         finalString = ""
-        
+
+
 
 def drawLsystem(myTurtle, finalString):
     for alpha in range(len(finalString)):
