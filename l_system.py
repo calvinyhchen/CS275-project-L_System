@@ -1,28 +1,45 @@
 import turtle
 
-def applyRules(alphabet, axiom, rules, nIter):
+def applyRules(axiom, rules, nIter):
     prev = axiom
-    finalString = ""
     for i in range(nIter):
+        finalString = ""
         for j in range(len(prev)):
             finalString +=  rules[prev[j]]
         prev = finalString
         if i == nIter-1:
             return finalString
-        finalString = ""
         
+def def_Alphabet(alphabet):
+    interpts = {}
+    for alpha in alphabet:
+        inter = raw_input("interpretation for %s: <action, degree>" % alpha)
+        if "forward" in inter.split()[0]:
+            act = 'f'
+        elif "backward" in inter.split()[0]:
+            act = 'b'
+        elif "right" in inter.split()[0]:
+            act = 'r'
+        elif "left" in inter.split()[0]:
+            act = 'l'
+        else:
+            print("input error")
+            break
 
-def drawLsystem(myTurtle, finalString):
-    for alpha in range(len(finalString)):
-        if finalString[alpha] == 'F':
-            print(finalString[alpha])
-            myTurtle.forward(10)
-        elif finalString[alpha] == 'B':
-            myTurtle.backward(10)
-        elif finalString[alpha] == '+':
-            myTurtle.right(60)
-        elif finalString[alpha] == '-':
-            myTurtle.left(60)
+        degree = int(inter.split()[1])
+        interpts[alpha] = (act, degree)
+    return interpts
+
+def drawLsystem(myTurtle, finalString, interpts):
+    for i in range(len(finalString)):
+        if interpts[finalString[i]][0] == 'f':
+            myTurtle.forward(interpts[finalString[i]][1])
+        elif interpts[finalString[i]][0] == 'b':
+            myTurtle.backward(interpts[finalString[i]][1])
+        elif interpts[finalString[i]][0] == 'r':
+            myTurtle.right(interpts[finalString[i]][1])
+        elif interpts[finalString[i]][0] == 'l':
+            myTurtle.left(interpts[finalString[i]][1])
 
 
 def initTurtle():
@@ -49,17 +66,18 @@ def initPara():
         temp_rule = raw_input("rule for %s: " % alphabet[i])
         rules[alphabet[i]] = temp_rule
     
+    interpts = def_Alphabet(alphabet)
     nIter = input("how many iterations: ")
 
-    return alphabet, axiom, rules, nIter
+    return alphabet, axiom, rules, interpts, nIter
 
 if __name__ == "__main__":
-    alphabet, axiom, rules, nIter = initPara()
+    alphabet, axiom, rules, interpts, nIter = initPara()
 
-    finalString = applyRules(alphabet,axiom,rules,nIter)
+    finalString = applyRules(axiom,rules,nIter)
 
     myTurtle, scrTurtle = initTurtle()
 
-    drawLsystem(myTurtle,finalString)
+    drawLsystem(myTurtle,finalString, interpts)
     
     scrTurtle.exitonclick()
