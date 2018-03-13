@@ -5,6 +5,9 @@ def applyRules(axiom, rules, nIter):
     for i in range(nIter):
         finalString = ""
         for j in range(len(prev)):
+            if prev[j] == '[' or prev[j] == ']':
+                finalString += prev[j]
+                continue
             finalString +=  rules[prev[j]]
         prev = finalString
         if i == nIter-1:
@@ -29,10 +32,13 @@ def def_Alphabet(alphabet):
 
         degree = int(inter.split()[1])
         interpts[alpha] = (act, degree)
+    interpts['['] = ('[',0)
+    interpts[']'] = (']',0)
     return interpts
 
 
 def drawLsystem(myTurtle, finalString, interpts):
+    turtleStack = []
     for i in range(len(finalString)):
         if interpts[finalString[i]][0] == 'f':
             myTurtle.forward(interpts[finalString[i]][1])
@@ -42,6 +48,15 @@ def drawLsystem(myTurtle, finalString, interpts):
             myTurtle.right(interpts[finalString[i]][1])
         elif interpts[finalString[i]][0] == 'l':
             myTurtle.left(interpts[finalString[i]][1])
+        elif interpts[finalString[i]][0] == '[':
+            turtleStack.append(myTurtle.pos())
+        elif interpts[finalString[i]][0] == ']':
+            curPos = turtleStack.pop()
+            myTurtle.penup()
+            myTurtle.setpos(curPos)
+            myTurtle.pendown()
+
+
 
 
 def initTurtle():
@@ -49,7 +64,9 @@ def initTurtle():
     scrTurtle = turtle.Screen()
   
 
-    init_x, init_y = input("initial position <x, y>: ")  
+    init_x = input("initial position x: ")  
+    init_y = input("initial position y: ")  
+
     myTurtle.penup()
     myTurtle.setx(init_x)
     myTurtle.sety(init_y)
