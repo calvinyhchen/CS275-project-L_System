@@ -97,6 +97,23 @@ def unfold(action_list, functions, n):
         all_actions = new_actions
     return all_actions
 
+def execute(all_actions):
+    for (func, para) in all_actions:
+        if func == '!':
+
+        elif func == '/':
+        
+        elif func == '+':
+        
+        elif func == '-':
+        
+        elif func == 'F':
+        
+        elif func == '[':
+        
+        elif func == ']':
+
+
 if __name__ == "__main__":
     # initial = raw_input("initial?")
     # n_rules = input("how many rules?")
@@ -120,5 +137,5 @@ if __name__ == "__main__":
     print action_list
     all_actions = unfold(action_list, functions, n)
     print "after unfold: ", all_actions
-
+    execute(all_actions)
 
