@@ -1,0 +1,96 @@
+//
+
+3
+F
++
+-
+F
+F[+F]F[-F]F
++
+-
+forward 5
+left 25.7
+right 25.7
+5
+0
+-250
+90
+
+
+//
+3
+F
++
+-
+F
+F[+F]F[-F][F]
++
+-
+forward 5
+left 20
+right 20
+5
+0
+-250
+90
+
+
+//
+3
+F
++
+-
+F
+FF-[-F+F+F]+[+F-F-F]
++
+-
+forward 5
+left 22.5
+right 22.5
+4
+0
+-250
+90
+
+
+//
+4
+F
+X
++
+-
+X
+FF
+F[+X][-X]FX
++
+-
+forward 3
+forward 0
+left 25.7
+right 25.7
+7
+0
+-250
+90
+
+
+//
+4
+F
+X
++
+-
+X
+FF
+F-[[X]+X]+F[+FX]-X
++
+-
+forward 3
+forward 0
+left 22.5
+right 22.5
+5
+0
+-250
+90
+
