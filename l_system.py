@@ -30,7 +30,7 @@ def def_Alphabet(alphabet):
             print("input error")
             break
 
-        degree = int(inter.split()[1])
+        degree = float(inter.split()[1])
         interpts[alpha] = (act, degree)
     interpts['['] = ('[',0)
     interpts[']'] = (']',0)
@@ -77,7 +77,7 @@ def initTurtle():
     myTurtle.sety(init_y)
     myTurtle.setheading(init_angle)
     myTurtle.pendown()
-    myTurtle.speed(5)
+    myTurtle.speed(10000)
     
     return myTurtle,scrTurtle
 
