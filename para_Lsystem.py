@@ -1,5 +1,28 @@
+import turtle
 # A(100, 30)
 # A(s, w):s>=0 ->!(w)F(s)[+(35)/(0)A(s*0.75, w*(0.5)^(0.4)))][+(-35)/(0)A(s*0.77, w*(0.5)^(0.4))]
+
+def initTurtle():
+    myTurtle = turtle.Turtle()
+    scrTurtle = turtle.Screen()
+  
+
+    # init_x = input("initial position x: ")  
+    # init_y = input("initial position y: ")  
+    # init_angle = input("initial angle: ")
+    init_x = 0
+    init_y = -50
+    init_angle = 90
+
+    myTurtle.penup()
+    myTurtle.setx(init_x)
+    myTurtle.sety(init_y)
+    myTurtle.setheading(init_angle)
+    myTurtle.pendown()
+    myTurtle.speed(10000)
+    
+    return myTurtle,scrTurtle
+
 def get_content(string):
     p = string.find('(')
     q = string.find(')')
@@ -98,21 +121,32 @@ def unfold(action_list, functions, n):
     return all_actions
 
 def execute(all_actions):
+    myTurtle, scrTurtle = initTurtle()
+    turtleStackPos = []
+    turtleStackAng = []
     for (func, para) in all_actions:
-        if func == '!':
-
-        elif func == '/':
-        
+        if func == '!': # set width
+            myTurtle.width(float(para))
+        elif func == '/': # tilt left
+            myTurtle.tilt(float(para))
         elif func == '+':
-        
+            myTurtle.left(float(para))
         elif func == '-':
-        
+            myTurtle.right(float(para))
         elif func == 'F':
-        
+            myTurtle.forward(float(para))
         elif func == '[':
-        
+            turtleStackPos.append(myTurtle.pos())
+            turtleStackAng.append(myTurtle.heading())
         elif func == ']':
+            curPos = turtleStackPos.pop()
+            curAng = turtleStackAng.pop()
+            myTurtle.penup()
+            myTurtle.setpos(curPos)
+            myTurtle.setheading(curAng)
+            myTurtle.pendown()
 
+    scrTurtle.exitonclick()
 
 if __name__ == "__main__":
     # initial = raw_input("initial?")
@@ -126,7 +160,7 @@ if __name__ == "__main__":
         rules.append(s)
         
     # n = input("how many iterations?")
-    n = 3
+    n = 10
 
     functions = {}
     for i in range(n_rules):
