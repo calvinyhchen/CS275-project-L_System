@@ -38,7 +38,8 @@ def def_Alphabet(alphabet):
 
 
 def drawLsystem(myTurtle, finalString, interpts):
-    turtleStack = []
+    turtleStackPos = []
+    turtleStackAng = []
     for i in range(len(finalString)):
         if interpts[finalString[i]][0] == 'f':
             myTurtle.forward(interpts[finalString[i]][1])
@@ -49,11 +50,14 @@ def drawLsystem(myTurtle, finalString, interpts):
         elif interpts[finalString[i]][0] == 'l':
             myTurtle.left(interpts[finalString[i]][1])
         elif interpts[finalString[i]][0] == '[':
-            turtleStack.append(myTurtle.pos())
+            turtleStackPos.append(myTurtle.pos())
+            turtleStackAng.append(myTurtle.heading())
         elif interpts[finalString[i]][0] == ']':
-            curPos = turtleStack.pop()
+            curPos = turtleStackPos.pop()
+            curAng = turtleStackAng.pop()
             myTurtle.penup()
             myTurtle.setpos(curPos)
+            myTurtle.setheading(curAng)
             myTurtle.pendown()
 
 
@@ -66,12 +70,14 @@ def initTurtle():
 
     init_x = input("initial position x: ")  
     init_y = input("initial position y: ")  
+    init_angle = input("initial angle: ")
 
     myTurtle.penup()
     myTurtle.setx(init_x)
     myTurtle.sety(init_y)
+    myTurtle.setheading(init_angle)
     myTurtle.pendown()
-    myTurtle.speed(10)
+    myTurtle.speed(5)
     
     return myTurtle,scrTurtle
 
