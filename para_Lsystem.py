@@ -8,6 +8,16 @@ def get_content(string):
 
 
 def intrp_cond(cond):
+    b = cond.find('>')
+    left = b
+    s = cond.find('<')
+    if s != -1 and s < b:
+        left = s
+    e = cond.find('=')
+    if e != -1 and e < b:
+        left = e
+    right = max(b,s,e)
+    return [ cond[:left], cond[left:right+1], cond[right+1:] ]
 
 def intrp_expr(expr):
 
