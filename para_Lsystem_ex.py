@@ -140,6 +140,7 @@ def execute(all_actions):
     H = [1,0,0]
     L = [0,1,0]
     U = [0,0,1]
+    initial = myTurtle.heading()
     for (func, para) in all_actions:
         if func == '!': # set width
             myTurtle.width(float(para))
@@ -151,7 +152,7 @@ def execute(all_actions):
             R.append([0,math.sin(thetaH),math.cos(thetaH)])
             H,L,U = rotate(H,L,U,R)
             head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(90+head)
+            myTurtle.setheading(initial+head)
         elif func == '+':
             thetaH = (float(para)/180)*math.pi
             R = []
@@ -160,7 +161,7 @@ def execute(all_actions):
             R.append([0,0,1])
             H,L,U = rotate(H,L,U,R)
             head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(90+head)
+            myTurtle.setheading(initial+head)
         elif func == '-':
             myTurtle.right(float(para))
         elif func == 'F':
@@ -170,11 +171,14 @@ def execute(all_actions):
             direction_stack.append([H,L,U])
         elif func == ']':
             curPos = turtleStackPos.pop()
-            H,L,U = direction_stack.pop()
+            D = direction_stack.pop()
+            H = D[0]
+            L = D[1]
+            U = D[2]
             myTurtle.penup()
             myTurtle.setpos(curPos)
             head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(90+head)
+            myTurtle.setheading(initial+head)
             myTurtle.pendown()
 
     scrTurtle.exitonclick()
