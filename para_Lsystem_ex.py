@@ -14,7 +14,7 @@ def initTurtle():
     # init_y = input("initial position y: ")  
     # init_angle = input("initial angle: ")
     init_x = 0
-    init_y = -50
+    init_y = -320
     init_angle = 90
 
     myTurtle.penup()
@@ -22,7 +22,7 @@ def initTurtle():
     myTurtle.sety(init_y)
     myTurtle.setheading(init_angle)
     myTurtle.pendown()
-    myTurtle.speed(5)
+    myTurtle.speed(10000000000000000000000000000)
     
     return myTurtle,scrTurtle
 
@@ -131,52 +131,61 @@ def rotate(H,L,U,R):
     U = M[2]
     return H,L,U
 
+def findHeading(H):
+    if H[0]<0 and H[1]>0:
+        return 180 + math.atan(H[1]/H[0])*180/math.pi
+    elif H[0]<0 and H[1]<0:
+        return 180 + math.atan(H[1]/H[0])*180/math.pi
+    else:
+        return math.atan(H[1]/H[0])*180/math.pi
+
 def execute(all_actions):
     myTurtle, scrTurtle = initTurtle()
     turtleStackPos = []
     direction_stack = []
-    H = [1,0,0]
-    L = [0,1,0]
+    heading_stack = []
+    H = [0,1,0]
+    L = [1,0,0]
     U = [0,0,1]
     initial = myTurtle.heading()
     for (func, para) in all_actions:
         if func == '!': # set width
-            myTurtle.width(float(para))
+            myTurtle.width(float(para)*1)
         elif func == '/': # tilt left
             thetaH = (float(para)/180)*math.pi
             R = []
-            R.append([1,0,0])
-            R.append([0,math.cos(thetaH),-math.sin(thetaH)])
-            R.append([0,math.sin(thetaH),math.cos(thetaH)])
+            R.append([1,                0,                 0])
+            R.append([0, math.cos(thetaH), -math.sin(thetaH)])
+            R.append([0, math.sin(thetaH),  math.cos(thetaH)])
             H,L,U = rotate(H,L,U,R)
-            head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(initial+head)
+            head = findHeading(H)
+            myTurtle.setheading(head)
         elif func == '+':
             thetaH = (float(para)/180)*math.pi
             R = []
-            R.append([math.cos(thetaH),math.sin(thetaH),0])
-            R.append([-math.sin(thetaH),math.cos(thetaH),0])
-            R.append([0,0,1])
+            R.append([ math.cos(thetaH),  math.sin(thetaH), 0])
+            R.append([-math.sin(thetaH),  math.cos(thetaH), 0])
+            R.append([                0,                0, 1])
             H,L,U = rotate(H,L,U,R)
-            head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(initial+head)
-        elif func == '-':
-            myTurtle.right(float(para))
+            head = findHeading(H)
+            print("rotate U:", head)
+            myTurtle.setheading(head)
         elif func == 'F':
-            myTurtle.forward(float(para)*math.cos(H[2]))
+            myTurtle.forward(float(para)*math.cos(H[2])*1)
         elif func == '[':
             turtleStackPos.append(myTurtle.pos())
             direction_stack.append([H,L,U])
+            heading_stack.append(myTurtle.heading())
         elif func == ']':
             curPos = turtleStackPos.pop()
+            curHead = heading_stack.pop()
             D = direction_stack.pop()
             H = D[0]
             L = D[1]
             U = D[2]
             myTurtle.penup()
             myTurtle.setpos(curPos)
-            head = math.atan(H[1]/H[0])*180/math.pi
-            myTurtle.setheading(initial+head)
+            myTurtle.setheading(curHead)
             myTurtle.pendown()
 
     scrTurtle.exitonclick()
@@ -189,13 +198,30 @@ if __name__ == "__main__":
     rules = []
     for i in range(n_rules):
         # s = raw_input("# %s rule: " %str(i+1))
-        # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.77,w*0.55**0.5)]()"
-        s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
+        ### a ###
+        # s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
+        ### b ###
+        # s = "A(s,w):s>=1.7 -> !(w)F(s)[()+(27)/(0)A(s*0.65,w*0.53**0.5)]()[()+(-68)/(0)A(s*0.71,w*0.47**0.5)]()"
+        ### c ###
+        # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.85,w*0.55**0.5)]()"
+        ### d ###
+        # s = "A(s,w):s>=0.0 -> !(w)F(s)[()+(25)/(180)A(s*0.6,w*0.45**0.5)]()[()+(-15)/(180)A(s*0.85,w*0.55**0.5)]()"
+        ### e ###
+        # s = "A(s,w):s>=1.0 -> !(w)F(s)[()+(30)/(0)A(s*0.58,w*0.4**0.5)]()[()+(15)/(180)A(s*0.83,w*0.6**0.5)]()"
+        ### f ###
+        # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(0)/(180)A(s*0.92,w*0.5**0.0)]()[()+(60)/(0)A(s*0.37,w*0.5**0.0)]()"
+        ### g ###
+        s = "A(s,w):s>=0.0 -> !(w)F(s)[()+(30)/(137)A(s*0.8,w*0.5**0.5)]()[()+(-30)/(137)A(s*0.8,w*0.5**0.5)]()"
+        ### h ###
+        # s = "A(s,w):s>=25.0 -> !(w)F(s)[()+(5)/(-90)A(s*0.95,w*0.6**0.45)]()[()+(-30)/(90)A(s*0.75,w*0.4**0.45)]()"
+        ### i ###
+        # s = "A(s,w):s>=5.0 -> !(w)F(s)[()+(-5)/(137)A(s*0.55,w*0.4**0.0)]()[()+(30)/(137)A(s*0.95,w*0.6**0.0)]()"
+        
 
         rules.append(s)
         
     # n = input("how many iterations?")
-    n = 5
+    n = 10
 
     functions = {}
     for i in range(n_rules):
