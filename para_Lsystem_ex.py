@@ -22,7 +22,7 @@ def initTurtle():
     myTurtle.sety(init_y)
     myTurtle.setheading(init_angle)
     myTurtle.pendown()
-    myTurtle.speed(10000)
+    myTurtle.speed(5)
     
     return myTurtle,scrTurtle
 
@@ -124,13 +124,11 @@ def unfold(action_list, functions, n):
     return all_actions
 
 def rotate(H,L,U,R):
-    print(H,L,U)
-    M = np.transpose([H,L,U])   
-    M = np.matmul(M,R)
-    H = M[:,0]
-    L = M[:,1]
-    U = M[:,2]
-    print(M)
+    M = np.array([H,L,U]) 
+    M = np.matmul(R,M)
+    H = M[0]
+    L = M[1]
+    U = M[2]
     return H,L,U
 
 def execute(all_actions):
@@ -186,16 +184,18 @@ def execute(all_actions):
 if __name__ == "__main__":
     # initial = raw_input("initial?")
     # n_rules = input("how many rules?")
-    initial = 'A(100,20)'
+    initial = 'A(100,30)'
     n_rules = 1
     rules = []
     for i in range(n_rules):
         # s = raw_input("# %s rule: " %str(i+1))
-        s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.77,w*0.55**0.5)]()"
+        # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.77,w*0.55**0.5)]()"
+        s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
+
         rules.append(s)
         
     # n = input("how many iterations?")
-    n = 9
+    n = 5
 
     functions = {}
     for i in range(n_rules):
