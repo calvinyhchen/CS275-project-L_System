@@ -1,9 +1,13 @@
 # L_System
 CS 275 final project
 
-## lsystem.py 
+## l_system.py 
 
 This file implements the 0L-Systems.
+
+python2 l_system.py
+
+type in the sample input suggested in <sample.txt> line by line.
 
 
 
