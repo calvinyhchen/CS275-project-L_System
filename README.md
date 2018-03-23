@@ -1,17 +1,13 @@
-# L_System
+## L_System
 CS 275 final project
 
-=====================
-lsystem.py 
-=====================
+# lsystem.py 
 
 This file implements the 0L-Systems.
 
 
 
-=====================
-parametric_Lsystem.py
-=====================
+# parametric_Lsystem.py
 
 This file implements the Parametric L-Systems.
 
