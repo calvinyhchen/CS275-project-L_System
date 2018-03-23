@@ -1,7 +1,7 @@
 import turtle
 import math
 import numpy as np
-
+import argparse
 # A(100, 30)
 # A(s, w):s>=0 ->!(w)F(s)[+(35)/(0)A(s*0.75, w*(0.5)^(0.4)))][+(-35)/(0)A(s*0.77, w*(0.5)^(0.4))]
 
@@ -10,9 +10,6 @@ def initTurtle():
     scrTurtle = turtle.Screen()
   
 
-    # init_x = input("initial position x: ")  
-    # init_y = input("initial position y: ")  
-    # init_angle = input("initial angle: ")
     init_x = 0
     init_y = -320
     init_angle = 90
@@ -22,7 +19,7 @@ def initTurtle():
     myTurtle.sety(init_y)
     myTurtle.setheading(init_angle)
     myTurtle.pendown()
-    myTurtle.speed(10000000000000000000000000000)
+    myTurtle.speed(100)
     
     return myTurtle,scrTurtle
 
@@ -191,19 +188,20 @@ def execute(all_actions):
     scrTurtle.exitonclick()
 
 if __name__ == "__main__":
-    # initial = raw_input("initial?")
-    # n_rules = input("how many rules?")
-    initial = 'A(100,30)'
-    n_rules = 1
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--demo", help="demo with example c", action="store_true")
+    args = parser.parse_args()
     rules = []
-    for i in range(n_rules):
-        # s = raw_input("# %s rule: " %str(i+1))
+    if args.demo:
+        initial = 'A(100,30)'
+        n_rules = 1
         ### a ###
         # s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
         ### b ###
         # s = "A(s,w):s>=1.7 -> !(w)F(s)[()+(27)/(0)A(s*0.65,w*0.53**0.5)]()[()+(-68)/(0)A(s*0.71,w*0.47**0.5)]()"
         ### c ###
-        # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.85,w*0.55**0.5)]()"
+        s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(25)/(180)A(s*0.5,w*0.45**0.5)]()[()+(-15)/(0)A(s*0.85,w*0.55**0.5)]()"
         ### d ###
         # s = "A(s,w):s>=0.0 -> !(w)F(s)[()+(25)/(180)A(s*0.6,w*0.45**0.5)]()[()+(-15)/(180)A(s*0.85,w*0.55**0.5)]()"
         ### e ###
@@ -211,18 +209,21 @@ if __name__ == "__main__":
         ### f ###
         # s = "A(s,w):s>=0.5 -> !(w)F(s)[()+(0)/(180)A(s*0.92,w*0.5**0.0)]()[()+(60)/(0)A(s*0.37,w*0.5**0.0)]()"
         ### g ###
-        s = "A(s,w):s>=0.0 -> !(w)F(s)[()+(30)/(137)A(s*0.8,w*0.5**0.5)]()[()+(-30)/(137)A(s*0.8,w*0.5**0.5)]()"
+        # s = "A(s,w):s>=0.0 -> !(w)F(s)[()+(30)/(137)A(s*0.8,w*0.5**0.5)]()[()+(-30)/(137)A(s*0.8,w*0.5**0.5)]()"
         ### h ###
         # s = "A(s,w):s>=25.0 -> !(w)F(s)[()+(5)/(-90)A(s*0.95,w*0.6**0.45)]()[()+(-30)/(90)A(s*0.75,w*0.4**0.45)]()"
         ### i ###
         # s = "A(s,w):s>=5.0 -> !(w)F(s)[()+(-5)/(137)A(s*0.55,w*0.4**0.0)]()[()+(30)/(137)A(s*0.95,w*0.6**0.0)]()"
-        
-
         rules.append(s)
+        n = 10
+    else:   
+        initial = raw_input("initial? ")
+        n_rules = input("how many rules? ")
+        for i in range(n_rules):
+            s = raw_input("# %s rule: " %str(i+1))
+            rules.append(s)
+        n = input("how many iterations? ")
         
-    # n = input("how many iterations?")
-    n = 10
-
     functions = {}
     for i in range(n_rules):
         func_name, paras, cond, expr = parse(rules[i])
