@@ -1,6 +1,8 @@
 import turtle
-# A(100, 30)
+# A(100, 20)
 # A(s, w):s>=0 ->!(w)F(s)[+(35)/(0)A(s*0.75, w*(0.5)^(0.4)))][+(-35)/(0)A(s*0.77, w*(0.5)^(0.4))]
+#A(s,w):s>=0 -> !(w)F(s)[()+(27)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()
+
 
 def initTurtle():
     myTurtle = turtle.Turtle()
@@ -11,7 +13,7 @@ def initTurtle():
     # init_y = input("initial position y: ")  
     # init_angle = input("initial angle: ")
     init_x = 0
-    init_y = -50
+    init_y = -200
     init_angle = 90
 
     myTurtle.penup()
@@ -73,7 +75,7 @@ def check(func_paras, func_cond, paras):
             cond += paras.split(',')[indx]
         else:
             cond += c
-    print cond, eval(cond)
+    # print cond, eval(cond)
     return eval(cond)
 
 
@@ -100,20 +102,20 @@ def apply_para(func_paras, func_expr, paras):
                 applied_child_paras.append(str(eval(new_fp)))
             applied_child_paras = ','.join(applied_child_paras)
             applied_expr.append((child_func, applied_child_paras))
-    print 'applied',applied_expr
+    # print 'applied',applied_expr
     return applied_expr
 
 def unfold(action_list, functions, n):
     all_actions = []
     all_actions.extend(action_list)
     for i in range(n):
-        print 'i', i
-        print all_actions
+        # print 'i', i
+        # print all_actions
         new_actions = []
         for (func, paras) in all_actions:
             if func in functions:
                 if check(functions[func][0], functions[func][1], paras):
-                    print func, '(', functions[func][0], ') use (' , paras, ')'
+                    # print func, '(', functions[func][0], ') use (' , paras, ')'
                     new_actions.extend(apply_para(functions[func][0], functions[func][2], paras))
             else:
                 new_actions.append((func, paras))
@@ -149,18 +151,18 @@ def execute(all_actions):
     scrTurtle.exitonclick()
 
 if __name__ == "__main__":
-    # initial = raw_input("initial?")
-    # n_rules = input("how many rules?")
-    initial = 'A(100,30)'
-    n_rules = 1
+    initial = raw_input("initial? ")
+    n_rules = input("how many rules? ")
+    # initial = 'A(100,30)'
+    # n_rules = 1
     rules = []
     for i in range(n_rules):
-        # s = raw_input("# %s rule: " %str(i+1))
-        s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
+        s = raw_input("# %s rule: " %str(i+1))
+        # s = "A(s,w):s>=0 -> !(w)F(s)[()+(35)/(0)A(s*0.75,w*0.5**0.4)]()[()+(-35)/(0)A(s*0.77,w*0.5**0.4)]()"
         rules.append(s)
         
-    # n = input("how many iterations?")
-    n = 10
+    n = input("how many iterations?")
+    # n = 10
 
     functions = {}
     for i in range(n_rules):
@@ -168,8 +170,8 @@ if __name__ == "__main__":
         functions[func_name] = (paras, cond, expr)
     
     action_list = intrp_expr(initial)
-    print action_list
+    # print action_list
     all_actions = unfold(action_list, functions, n)
-    print "after unfold: ", all_actions
+    # print "after unfold: ", all_actions
     execute(all_actions)
 

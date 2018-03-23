@@ -10,6 +10,7 @@ def applyRules(axiom, rules, nIter):
                 continue
             finalString +=  rules[prev[j]]
         prev = finalString
+        # print(finalString)
         if i == nIter-1:
             return finalString
 
